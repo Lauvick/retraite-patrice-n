@@ -316,6 +316,60 @@
             margin-bottom: 10px;
         }
         
+        /* NOUVEAU : Styles pour le formulaire caché */
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid #2a5298;
+            display: none; /* Caché par défaut */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+        
+        .form-section.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .form-section h2 {
+            color: #1e3c72;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+        
+        .form-iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .close-form-btn {
+            background: #e53e3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            float: right;
+        }
+        
+        .close-form-btn:hover {
+            background: #c53030;
+            transform: scale(1.05);
+        }
+        
         .footer {
             text-align: center;
             padding: 40px;
@@ -354,6 +408,14 @@
             
             .registration-section {
                 padding: 40px 20px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .form-iframe {
+                height: 600px;
             }
             
             .info-grid {
@@ -457,7 +519,7 @@
                         <div class="step">
                             <div class="step-number">1</div>
                             <h3>Cliquez sur "S'inscrire"</h3>
-                            <p>Accédez au formulaire d'inscription en ligne</p>
+                            <p>Le formulaire apparaît juste en dessous</p>
                         </div>
                         <div class="step">
                             <div class="step-number">2</div>
@@ -477,6 +539,17 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- NOUVEAU : Section formulaire cachée -->
+                <div class="form-section" id="formSection">
+                    <button class="close-form-btn" id="closeFormBtn">✕ Fermer</button>
+                    <h2>📝 Inscription à la Retraite</h2>
+                    <iframe 
+                        class="form-iframe"
+                        src="https://form.jotform.com/JEVSQY/retraite-PN-15-17-08"
+                        title="Formulaire d'inscription à la retraite spirituelle">
+                    </iframe>
+                </div>
             </div>
         </div>
         
@@ -494,27 +567,49 @@
     </div>
 
     <script>
-        // URL de votre Google Form
-        const GOOGLE_FORM_URL = 'https://form.jotform.com/JEVSQY/retraite-PN-15-17-08';
-        
-        // Fonction pour ouvrir le formulaire Google
-        function openRegistrationForm() {
-            // Ouvre le Google Form dans un nouvel onglet
-            window.open(GOOGLE_FORM_URL, '_blank');
+        // Fonction pour afficher le formulaire
+        function showForm() {
+            const formSection = document.getElementById('formSection');
+            formSection.style.display = 'block';
             
-            // Optionnel : analytics pour suivre les clics
-            console.log('Redirection vers le formulaire d\'inscription');
+            // Animation d'apparition avec un petit délai
+            setTimeout(() => {
+                formSection.classList.add('show');
+                
+                // Scroll vers le formulaire
+                formSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 50);
         }
         
-        // Ajouter les événements de clic sur les boutons
+        // Fonction pour masquer le formulaire
+        function hideForm() {
+            const formSection = document.getElementById('formSection');
+            formSection.classList.remove('show');
+            
+            // Masquer complètement après l'animation
+            setTimeout(() => {
+                formSection.style.display = 'none';
+            }, 500);
+        }
+        
+        // Événements de clic sur les boutons d'inscription
         document.getElementById('registerBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            openRegistrationForm();
+            showForm();
         });
         
         document.getElementById('registerBtn2').addEventListener('click', function(e) {
             e.preventDefault();
-            openRegistrationForm();
+            showForm();
+        });
+        
+        // Événement pour fermer le formulaire
+        document.getElementById('closeFormBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            hideForm();
         });
         
         // Animation d'entrée des cartes
